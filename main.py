@@ -4,32 +4,25 @@ from dotenv import load_dotenv
 
 import os
 import time
-from pprint import pprint
+
 load_dotenv()
 
 
 def main():
 
     long_polling_url = "https://dvmn.org/api/long_polling/"
-    polling_url = 'https://dvmn.org/api/user_reviews/'
 
     devman_token = os.getenv('DEVMAN_TOKEN')
     telegram_token = os.getenv('TELEGRAM_TOKEN')
     chat_id = os.getenv('CHAT_ID')
 
     bot = telegram.Bot(token=telegram_token)
-    # bot.send_message(text='Hi', chat_id=chat_id)
 
     headers = {
         f'Authorization': f'Token {devman_token}'
     }
 
-    timestamp_with_work = '1644420344.9888153'
-    timestamp_with_few_works = '1555609162.580245'
-    timestamp_without_works = '1644552707.1979823'
-
-    #last_timestamp = time.time()
-    last_timestamp = timestamp_with_work
+    last_timestamp = time.time()
 
     text_result = {
         False: 'Все хорошо, можно приступать к следующему уроку',
@@ -70,7 +63,6 @@ def main():
                     )
 
         except requests.exceptions.ReadTimeout:
-            print('Works not found')
             pass
         except OSError:
             pass
