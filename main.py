@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 
 import os
 import time
+from textwrap import dedent
 
 
 def main():
@@ -48,11 +49,15 @@ def main():
                     result = text_result[lesson['is_negative']]
                     lesson_url = lesson["lesson_url"]
 
-                    text = (
-                        'Преподаватель проверил вашу работу \n'
-                        f'"{lesson["lesson_title"]}" \n\n'
-                        f'{result} \n\n'
-                        f'<a href="{lesson_url}">Перейти к уроку</a> '
+                    text = dedent(
+                        f'''\
+                            Преподаватель проверил вашу работу:
+                            "{lesson["lesson_title"]}".
+                        
+                            {result}
+                        
+                            <a href="{lesson_url}">Перейти к уроку</a>
+                        '''
                     )
 
                     bot.send_message(
