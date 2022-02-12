@@ -64,7 +64,7 @@ def main():
 
         except requests.exceptions.ReadTimeout:
             pass
-        except OSError:
+        except requests.ConnectionError:
             pass
 
 
