@@ -65,6 +65,8 @@ def main():
                         chat_id=telegram_chat_id,
                         parse_mode='HTML'
                     )
+            elif last_attempt['status'] == 'timeout':
+                last_timestamp = last_attempt['timestamp_to_request']
 
         except requests.exceptions.ReadTimeout:
             pass
