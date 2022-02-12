@@ -8,7 +8,7 @@ import time
 
 def main():
     load_dotenv()
-    
+
     long_polling_url = "https://dvmn.org/api/long_polling/"
 
     devman_token = os.getenv('DEVMAN_TOKEN')
@@ -64,7 +64,7 @@ def main():
         except requests.exceptions.ReadTimeout:
             pass
         except requests.ConnectionError:
-            pass
+            time.sleep(5)
 
 
 if __name__ == '__main__':
