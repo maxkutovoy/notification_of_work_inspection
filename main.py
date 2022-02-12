@@ -5,11 +5,10 @@ from dotenv import load_dotenv
 import os
 import time
 
-load_dotenv()
-
 
 def main():
-
+    load_dotenv()
+    
     long_polling_url = "https://dvmn.org/api/long_polling/"
 
     devman_token = os.getenv('DEVMAN_TOKEN')
