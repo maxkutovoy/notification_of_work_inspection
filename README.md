@@ -24,7 +24,7 @@ pip install -r requirements.txt
 - `DEVMAN_TOKEN` — токен с сайта devman.org можно получить в разделе
 [dvmn.org/api/docs/](https://dvmn.org/api/docs/).
 - `TELEGRAM_TOKEN` — токен телеграм-бота.
-- `CHAT_ID` — `chat_id` на который будут отправляться уведомления. Чтобы узнать свой 
+- `TELEGRAM_CHAT_ID` — `chat_id` на который будут отправляться уведомления. Чтобы узнать свой 
 `chat_id` можно написать боту `@userinfobot`.
 
 После этого необходимо запустить проект в терминале командой:
