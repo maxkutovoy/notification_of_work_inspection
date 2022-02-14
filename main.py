@@ -2,12 +2,16 @@ import telegram
 import requests
 from dotenv import load_dotenv
 
+import logging
 import os
 import time
 from textwrap import dedent
 
 
 def main():
+
+    logging.basicConfig(level=logging.DEBUG)
+
     load_dotenv()
 
     long_polling_url = "https://dvmn.org/api/long_polling/"
@@ -41,6 +45,7 @@ def main():
                 timeout=5
             )
             response.raise_for_status()
+            logging.warning('Бот запущен')
             last_attempt = response.json()
 
             if last_attempt['status'] == 'found':
