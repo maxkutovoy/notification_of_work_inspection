@@ -10,8 +10,6 @@ from textwrap import dedent
 
 def main():
 
-    logging.basicConfig(level=logging.DEBUG)
-
     load_dotenv()
 
     long_polling_url = "https://dvmn.org/api/long_polling/"
@@ -21,6 +19,21 @@ def main():
     telegram_chat_id = os.getenv('TELEGRAM_CHAT_ID')
 
     bot = telegram.Bot(token=telegram_token)
+
+    class TelegramLogsHandler(logging.Handler):
+
+        def __init__(self, tg_bot, chat_id):
+            super().__init__()
+            self.chat_id = chat_id
+            self.tg_bot = tg_bot
+
+        def emit(self, record):
+            log_entry = self.format(record)
+            self.tg_bot.send_message(chat_id=self.chat_id, text=log_entry)
+
+    logger = logging.getLogger('Logger')
+    logger.setLevel(logging.WARNING)
+    logger.addHandler(TelegramLogsHandler(bot, telegram_chat_id))
 
     headers = {
         f'Authorization': f'Token {devman_token}'
@@ -32,6 +45,8 @@ def main():
         False: 'Все хорошо, можно приступать к следующему уроку',
         True: 'Еще есть над чем поработать',
     }
+
+    logger.warning('Бот запущен')
 
     while True:
         payload = {
@@ -45,7 +60,6 @@ def main():
                 timeout=5
             )
             response.raise_for_status()
-            logging.warning('Бот запущен')
             last_attempt = response.json()
 
             if last_attempt['status'] == 'found':
@@ -77,6 +91,8 @@ def main():
             pass
         except requests.ConnectionError:
             time.sleep(5)
+        except Exception:
+            logging.exception('Непредвиденная ошибка:', exc_info=True)
 
 
 if __name__ == '__main__':
