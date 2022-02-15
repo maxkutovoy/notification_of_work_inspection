@@ -7,31 +7,31 @@ import os
 import time
 from textwrap import dedent
 
+logger = logging.getLogger('Logger')
+
+
+class TelegramLogsHandler(logging.Handler):
+
+    def __init__(self, tg_bot, chat_id):
+        super().__init__()
+        self.chat_id = chat_id
+        self.tg_bot = tg_bot
+
+    def emit(self, record):
+        log_entry = self.format(record)
+        self.tg_bot.send_message(chat_id=self.chat_id, text=log_entry)
+
 
 def main():
-
     load_dotenv()
 
     long_polling_url = "https://dvmn.org/api/long_polling/"
-
     devman_token = os.getenv('DEVMAN_TOKEN')
     telegram_token = os.getenv('TELEGRAM_TOKEN')
     telegram_chat_id = os.getenv('TELEGRAM_CHAT_ID')
 
     bot = telegram.Bot(token=telegram_token)
 
-    class TelegramLogsHandler(logging.Handler):
-
-        def __init__(self, tg_bot, chat_id):
-            super().__init__()
-            self.chat_id = chat_id
-            self.tg_bot = tg_bot
-
-        def emit(self, record):
-            log_entry = self.format(record)
-            self.tg_bot.send_message(chat_id=self.chat_id, text=log_entry)
-
-    logger = logging.getLogger('Logger')
     logger.setLevel(logging.WARNING)
     logger.addHandler(TelegramLogsHandler(bot, telegram_chat_id))
 

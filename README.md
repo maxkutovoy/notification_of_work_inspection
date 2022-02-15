@@ -33,6 +33,17 @@ pip install -r requirements.txt
 python main.py
 ```
 
+## Выгрузка на сервер:
+Проект подготовлен для выгрузки на [heroku.com](https://heroku.com)
+
+Для этого необходимо: 
+* зарегистрироваться на [heroku.com](https://id.heroku.com/login)
+* выложить код в свой `GitHub` репозиторий
+* на [heroku.com](https://heroku.com) в разделе `Deploy` привязать свой `GitHub`.
+Затем найти свой репозиторий с помощью поиска и подключить его к Heroku.
+* во вкладке Settings на сайте Heroku заполните `Config Vars` так же как файл `.env`
+
+
 ## Цель проекта:
 
 Код написан в образовательных целях на курсе для
